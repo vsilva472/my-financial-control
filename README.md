@@ -1,5 +1,7 @@
 # My Financial Control
-"MFC" é um  web aplicativo super simples para controle financeiro.
+"MFC" é um  web aplicativo super simples para controle financeiro, indicado para os seguinte nichos:
+ * Pessoas comuns que queiram controlar seus gastos.
+ * Profissionais liberais com abaixa movimentação $$$ mensal como barbeiros, manicures, mecânicos e etc..
 
 ## A quem se destina
 MFC foi desenvolvido para acelerar o desenvolvimento de web apps com esse tema, podendo ser facilmente empacotado em aplicação híbridas com cordova, ionic e etc..
@@ -33,7 +35,7 @@ O compomente datepicker está configurado para o formato "DD/MM/YYYY", altere es
 * **size** - Tamanho do banco de dados em bytes
 * **schemas** - Sql das Tabelas a serem criadas. Se você deseja criar novas tabelas, basta incrementar esse objeto.
 * **itemsPerPage** - Quantidade de itens por página. Utilizada na paginação 
-* **seed** - Caso deseje que o banco de dados seja populado mantenha esta propriedade
+* **seed** - Caso não deseje que o banco de dados seje populado sete a valor para false default : true.
 
 ### 3. Camadas de acesso a dados
 * Database/database.service.js - Abre a conexão com o banco de dados e retorna o handler;

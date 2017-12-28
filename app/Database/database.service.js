@@ -45,7 +45,7 @@
          * @return void
          */
         function createTables () {
-            console.log( 'Creating tables...' );
+            console.log( 'creating tables...' );
             for ( var i in DATABASE.schemas ) {
                 doQuery( DATABASE.schemas[ i ], [] );
             }
@@ -67,6 +67,78 @@
         }
 
         /**
+         * Seed tables if DATABASE.seed === true
+         *
+         * @see DATABASE.seed - database.config.js
+         *
+         * @return void
+         */
+        function seed () {
+            console.log( 'seeding...' );
+
+            function getRandomPrice() {
+                return ( Math.random() * ( 0.99 - 50.99 ) + 50.99 ).toFixed( 2 );
+            }
+
+            /* Input list */
+            var inputs = [
+                { name : 'Barba', price: getRandomPrice() },
+                { name : 'Barba Navalhada', price: getRandomPrice() },
+                { name : 'Corte à Máquina', price: getRandomPrice() },
+                { name : 'Corte à Tesoura', price: getRandomPrice() },
+                { name : 'Máquina + Tesoura', price: getRandomPrice() },
+                { name : 'Sombrancelha', price: getRandomPrice() },
+                { name : 'Shampoo p/ Barba', price: getRandomPrice()}
+            ];
+
+            /* Output list */
+            var outputs = [
+                { name: 'Almoço' , price: getRandomPrice() } ,
+                { name: 'Lanche', price: getRandomPrice() },
+                { name: 'Jantar com clientes', price: getRandomPrice() },
+                { name: 'Cigarro', price: getRandomPrice() },
+                { name: 'Sorvete', price: getRandomPrice() },
+                { name: 'Aluguel', price: getRandomPrice() },
+                { name: 'Reboque', price: getRandomPrice() }
+            ];
+
+            /* Today iso string */
+            var today = new Date().toISOString();
+
+            /* SQL */
+            var sqlCatalog = "INSERT INTO catalog (name, price, created_at) VALUES (?,?,?)";
+            var sqlEntries = "INSERT INTO entries (name, price, operation, created_at) VALUES (?,?,?,?)";
+
+            db.transaction( function ( tx ) {
+                angular.forEach( inputs, function ( service ) {
+                    tx.executeSql( sqlCatalog, [ service.name, service.price, today ], function ( tx, rs ) {},
+                        function ( tx, error ) { console.log( 'Erro while seeding catalog table' ); console.log( error ) } );
+                } );
+
+                // seed entries today
+                for ( var x=0; x<50; x++ ) {
+
+                    /* Random index from outputs (outputs and inputs have same length) */
+                    var itemIndex =  Math.floor(Math.random() * outputs.length );
+
+                    // Random entry type
+                    var entryType = Math.floor(Math.random() * 5 + 1);
+
+                    // operation type base on entry type
+                    var operation = entryType === 5 ? 'o' : 'i';
+
+                    // entry name base on operation
+                    var entry = operation === 'i' ? inputs[ itemIndex ] : outputs[ itemIndex ];
+
+                    tx.executeSql( sqlEntries, [ entry.name, entry.price, operation, today ], function ( tx, rs ) {},
+                        function ( tx, error ) { console.log( 'Erro while seeding entry table' ); console.log( error ) } );
+                }
+
+            } );
+
+        }
+
+        /**
          * Pseudo service constructor
          */
         function init () {
@@ -80,6 +152,8 @@
             if ( ! localStorage.getItem( DATABASE.lskey ) ) {
                 dropTables();
                 createTables();
+                if ( DATABASE.seed === true ) seed();
+
                 localStorage.setItem( DATABASE.lskey, '1' );
             }
         }

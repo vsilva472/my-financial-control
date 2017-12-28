@@ -21,7 +21,7 @@
         self.inputs     = 0.00;
         self.outputs    = 0.00;
         self.currency   = $locale.NUMBER_FORMATS.CURRENCY_SYM || '$';
-        self.total      = function () { return self.inputs - self.outputs; };
+        self.total      = function () { return ( self.inputs - self.outputs ); };
         self.pageTitle  = "Controle Financeiro";
 
         /* Pagination properties */
@@ -123,15 +123,13 @@
          * @private function set input value based on date rage
          * @see setPainelValues
          *
-         * @return void
+         * @return promise
          */
-        function setInputValues () {
-            Entry.getPeriodInputAmount(
+        function getInputValues () {
+            return Entry.getPeriodInputAmount(
                 DataAdapter.parsePeriod.start( self.periodStart ),
                 DataAdapter.parsePeriod.end( self.periodEnd )
-            ).then( function ( rs ) {
-                self.inputs = DataAdapter.parseProperty( rs, 'total' );
-            } );
+            )
         }
 
         /**
@@ -140,24 +138,30 @@
          *
          * @return void
          */
-        function setOutputValues () {
-            Entry.getPeriodOutputAmount(
+        function getOutputValues () {
+            return Entry.getPeriodOutputAmount(
                 DataAdapter.parsePeriod.start( self.periodStart ),
                 DataAdapter.parsePeriod.end( self.periodEnd )
-            ).then( function ( rs ) {
-                self.outputs = DataAdapter.parseProperty( rs, 'total' );
-            } );
+            );
         }
 
         /**
          * @private function
-         * Set view values for output and input on painel
+         * Set view values for output and input on panel
          *
          * @return void
          */
         function setPainelValues () {
-            setInputValues();
-            setOutputValues();
+            var valInput;
+
+            getInputValues().then( function ( input ) {
+                valInput = DataAdapter.parseProperty( input, 'total' );
+                return getOutputValues();
+            } ).then( function ( output ) {
+                self.outputs = DataAdapter.parseProperty( output, 'total' );
+                self.inputs = valInput;
+            } );
+
             setAccumulatedLabel();
         }
 
