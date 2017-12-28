@@ -46,11 +46,7 @@
 
                     isEditMode : function () {
                         return false;
-                    },
-
-                    catalog : [ 'Catalog', function ( Catalog ) {
-                        return Catalog.all();
-                    }]
+                    }
                 }
             })
             .when( '/entry/edit/:id', {
@@ -68,10 +64,6 @@
 
                     isEditMode : function () {
                         return true;
-                    },
-
-                    catalog : function () {
-                        return null;
                     }
                 }
             });

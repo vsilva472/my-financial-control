@@ -26,27 +26,15 @@
             <md-icon md-svg-src="search"></md-icon>
         </md-button>
 
-        <div class="flex">
-            <md-autocomplete
-                    ng-disabled="false"
-                    md-no-cache="true"
-                    md-floating-label="Buscar"
-                    md-selected-item="ctrl.selectedItem"
-                    md-search-text="ctrl.searchText"
-                    md-selected-item-change="ctrl.selectedItemChange(catalogItem)"
-                    md-items="catalogItem in ctrl.querySearch(ctrl.searchText)"
-                    md-item-text="catalogItem.name"
-                    md-min-length="0"
-                    placeholder="Buscar" flex>
-
-                <md-item-template>
-                    <span md-highlight-text="ctrl.searchText" md-highlight-flags="i">{{::catalogItem.name}}</span>
-                </md-item-template>
-
-                <md-not-found>Nenhum item encontrado no catálogo</md-not-found>
-
-            </md-autocomplete>
-        </div>
+        <md-input-container flex>
+            <label>Catálogo</label>
+            <md-select ng-model="ctrl.selectedItem" md-on-open="ctrl.loadCatalog();">
+                <md-option><em>None</em></md-option>
+                <md-option ng-repeat="catalogItem in ctrl.catalog" ng-click="ctrl.onSelectItem( catalogItem )">
+                    {{catalogItem.name}}
+                </md-option>
+            </md-select>
+        </md-input-container>
 
         <md-button class="md-icon-button" aria-label="Cancelar Busca" ng-click="ctrl.search = false;">
             <md-icon md-svg-src="clear"></md-icon>
@@ -55,7 +43,7 @@
     </div>
 </md-toolbar>
 
-<md-content layout="column" flex md-colors="::{background: 'grey-50'}"  layout-padding>
+<md-content flex md-colors="::{background: 'grey-50'}"  layout-padding>
     <form name="itemForm" layout="column" class="has-datepicker">
         <md-input-container>
             <label>Nome</label>
@@ -86,6 +74,7 @@
                 </div>
             </div>
         </md-input-container>
+        <br />
 
         <p md-colors="::{color : 'grey-500'}">Tipo de operação*</p>
 
@@ -94,7 +83,7 @@
             <md-radio-button value="o" md-colors="::{color : 'grey-500'}">Saída</md-radio-button>
         </md-radio-group>
 
-        <br /><br />
+        <br /><br /><br />
 
         <p md-colors="::{color : 'grey-500'}">Data do registro*</p>
 
@@ -106,8 +95,6 @@
                 Digite a data no formato DD/MM/AAAA
             </div>
         </div>
-
-        <br /><br />
     </form>
 
 </md-content>

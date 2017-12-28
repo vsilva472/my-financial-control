@@ -5,29 +5,28 @@
         '$timeout',
         '$location',
         'Entry',
+        'Catalog',
         'DataAdapter',
         'pageTitle',
         'item',
-        'catalog',
         'isEditMode',
         'onDatabaseError',
         'confirmDialog'
     ];
 
-    function EntryController ( $timeout, $location, Entry, DataAdapter, pageTitle, item, catalog, isEditMode, onDatabaseError, confirmDialog ) {
+    function EntryController ( $timeout, $location, Entry, Catalog, DataAdapter, pageTitle, item, isEditMode, onDatabaseError, confirmDialog ) {
 
         /* jshint validthis:true */
         var self = this;
 
         self.item               = DataAdapter.parseSingle( item );
-        self.catalog            = DataAdapter.parseCollection( catalog );
         self.pageTitle          = pageTitle;
         self.isEditMode         = isEditMode;
 
-        self.querySearch        = querySearch;
         self.updateOrCreate     = updateOrCreate;
-        self.selectedItemChange = selectedItemChange;
         self.removeItem         = removeItem;
+        self.onSelectItem       = onSelectItem;
+        self.loadCatalog        = loadCatalog;
 
         /**
          * Open a confirm dialog before execute the action of remove item from database
@@ -48,24 +47,13 @@
         }
 
         /**
-         * Search item by item name
-         *
-         * @param   String  query   The query to be searched on item.name
-         *
-         * @return  object  the item filtered
-         */
-        function querySearch ( query ) {
-            return query ? self.catalog.filter( createFilterFor( query ) ) : self.catalog;
-        }
-
-        /**
          * Set values of the item choosed by user in form
          *
          * @param   object  item    The item choosed
          *
          * @return void
          */
-        function selectedItemChange( item ) {
+        function onSelectItem( item ) {
             if( item && item.name) {
                 self.item.name = angular.copy( item.name );
                 self.item.price = angular.copy( item.price );
@@ -78,16 +66,13 @@
             }
         }
 
-        /**
-         * Create filter function for a query string
-         *
-         * @param   String  query   The query to search on list
-         */
-        function createFilterFor( query ) {
-            var lowercaseQuery = angular.lowercase( query );
-            return function filterFn( catalogItem ) {
-                return ( catalogItem.name.toLowerCase().indexOf( lowercaseQuery ) !== -1 );
-            };
+        function loadCatalog () {
+            if ( self.catalog ) return self.catalog;
+
+            Catalog.all().then( function ( rs ) {
+                if ( rs.rows.length )
+                    self.catalog = DataAdapter.parseCollection( rs );
+            } );
         }
 
         /**

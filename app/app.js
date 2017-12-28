@@ -7,6 +7,8 @@
     ] )
         .run( [ '$templateRequest', function( $templateRequest ) {
 
+            FastClick.attach(document.body);
+
             var urls = [
                 'assets/icons/ic_add_black_24px.svg',
                 'assets/icons/ic_arrow_back_black_24px.svg',

@@ -1,7 +1,7 @@
-<html lang="en">
+<html lang="pt_BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
 
     <!-- Angular Material style sheet -->
@@ -11,7 +11,9 @@
     <base href="/my-financial-control/">
 
     <!-- App styles -->
-    <link rel="stylesheet" href="assets/css/app.css">
+    <link rel="stylesheet" href="assets/css/app.css?v=1">
+
+    <script src="assets/libs/fastclick.js"></script>
 </head>
 <body ng-app="mfc" ng-cloak layout="row">
 
@@ -54,7 +56,7 @@
 
 <script src="app/Entry/entry.service.js"></script>
 <script src="app/Entry/route.config.js"></script>
-<script src="app/Entry/entry.controller.js"></script>
+<script src="app/Entry/entry.controller.js?v=1"></script>
 <script src="app/Entry/search.dialog.factory.js"></script>
 <script src="app/Entry/entry.search.dialog.controller.js"></script>
 <script src="app/Entry/entries.controller.js"></script>

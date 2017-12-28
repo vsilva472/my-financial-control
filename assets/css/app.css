@@ -11,12 +11,13 @@
 /* Search bar for catalog in entry/add */
 .md-toolbar-tools label { display: none; }
 
-md-toolbar md-input-container .md-input {
+md-toolbar md-input-container .md-select-value {
     border-bottom-color: rgba(255,255,255,.5); !important;
-    color: #fff !important;
+    color: rgba(255,255,255,.8) !important;
 }
 
-.md-toolbar-tools md-autocomplete { margin-top: 11px;}
+md-toolbar md-select { font-size: 16px; }
+md-toolbar .md-select-value span:not(.md-select-icon) { visibility: hidden; }
 md-toolbar md-icon svg { fill: #fff; fill-opacity: 0.87; }
 md-content md-icon:not(.md-datepicker-calendar-icon) svg { fill-opacity: 0.54; }
 .md-fab svg { fill: #fff; }
@@ -68,9 +69,6 @@ md-datepicker { margin-left:-15px; }
     color: #dd2c00;
     margin: 10px 0 0 0;
 }
-
-.has-datepicker { overflow-x:hidden; }
-
 
 /* Buttons */
 .no-margin-around {
