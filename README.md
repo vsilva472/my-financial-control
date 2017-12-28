@@ -23,10 +23,10 @@ NOTA: Sempre que você entrar no app o período default será a data corrente.
 
 ### 1. Data Core/date.config.js
 
-As datas do compomente datepicker está configurada para "DD/MM/YYYY", altere este arquivo para o formato desejado.
+O compomente datepicker está configurado para o formato "DD/MM/YYYY", altere este padrão para o formato desejado.
 
 ### 2. Banco de Dados Database/database.config.js
-* **lskey** - Nome da flag que o app utiliza para checar se deverá criar as tabelas ou não (salva no localstorage), então você desejar implementar um sistema de RESET em seu app basta remover esta propriedade do localstorage `window.localstorage.removeIem( DATABASE.lskey );` e atualizar a página;
+* **lskey** - Nome da flag que o app utiliza para checar se deverá criar as tabelas ou não (salva no localstorage), então você desejar implementar um sistema de RESET em seu app basta remover esta propriedade do localstorage `window.localstorage.removeItem( DATABASE.lskey );` e atualizar a página;
 * **version** - Versão do banco de dados. Necessário para abrir o websql
 * **dbname** - Nome do banco de dados. Necessário para abrir o websql
 * **description** - Texto que descreve o banco de dados . Necessário para abrir o websql
