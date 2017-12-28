@@ -35,19 +35,8 @@
         /* display count label */
         self.msg = '';
 
-
         self.openFilterDialog = openFilterDialog;
 
-        /**
-         * Update the acumulated values on inputs and outputs
-         *
-         * @param   object  item    The item removed from the list
-         * @return void
-         */
-        function updateValues ( item ) {
-            if (item.operation === 'i') self.inputs -= item.price;
-            else self.outputs -= item.price;
-        }
 
         /**
          * Success callback of query paginate
@@ -79,6 +68,7 @@
          * @private function
          */
         function queryDateByRange () {
+            console.log( 'queryDateByRange' );
             Entry.findByDateRange(
                 DataAdapter.parsePeriod.start( self.periodStart ),
                 DataAdapter.parsePeriod.end( self.periodEnd ),
@@ -93,7 +83,7 @@
             // reset query params
             self.periodStart = period.start;
             self.periodEnd = period.end;
-            self.pageSize = [ 0 ];
+            self.pageSize = 0;
             self.isPaginationAllowed = true;
             self.items = [];
         }

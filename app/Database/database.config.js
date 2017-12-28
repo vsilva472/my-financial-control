@@ -51,7 +51,7 @@
         },
 
         /*  Default items per page */
-        itemsPerPage : 50,
+        itemsPerPage : 10,
 
         /* Initialize app with predefined values */
         seed : true
