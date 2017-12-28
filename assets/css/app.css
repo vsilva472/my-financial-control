@@ -1,0 +1,119 @@
+.text-right { text-align: right; }
+
+/* Shadow in tooblar */
+.with-shadow {
+    -moz-box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
+    -webkit-box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
+    -o-box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
+}
+
+/* Search bar for catalog in entry/add */
+.md-toolbar-tools label { display: none; }
+
+md-toolbar md-input-container .md-input {
+    border-bottom-color: rgba(255,255,255,.5); !important;
+    color: #fff !important;
+}
+
+.md-toolbar-tools md-autocomplete { margin-top: 11px;}
+md-toolbar md-icon svg { fill: #fff; fill-opacity: 0.87; }
+md-content md-icon:not(.md-datepicker-calendar-icon) svg { fill-opacity: 0.54; }
+.md-fab svg { fill: #fff; }
+.md-button[disabled] svg { fill-opacity: 0.4; }
+
+
+/* Animation of FAB buton */
+.fab-scale {
+    display: none;
+    transition: all ease;
+}
+
+.fab-scale.fab-scale-up {
+    display: block;
+    animation : bounce-grow 300ms;
+}
+
+@-webkit-keyframes bounce-grow {
+    0%   { -webkit-transform: scale(0); }
+    60%  { -webkit-transform: scale(1.1); }
+    80%  { -webkit-transform: scale(.9); }
+    100%  { -webkit-transform: scale(1); }
+
+}
+@-o-keyframes bounce-grow {
+    0%   { -o-transform: scale(0); }
+    60%  { -o-transform: scale(1.1); }
+    80%  { -o-transform: scale(.9); }
+    100%  { -o-transform: scale(1); }
+}
+@-moz-keyframes bounce-grow {
+    0%   { -moz-transform: scale(0); }
+    60%  { -moz-transform: scale(1.1); }
+    80%  { -moz-transform: scale(.9); }
+    100%  { -moz-transform: scale(1); }
+}
+@keyframes bounce-grow {
+    0%   { transform: scale(0); }
+    60%  { transform: scale(1.1); }
+    80%  { transform: scale(.9); }
+    100%  { transform: scale(1); }
+}
+
+/*  Datepicker */
+md-datepicker { margin-left:-15px; }
+
+.datepicker-error-messages {
+    font-size: 12px;
+    color: #dd2c00;
+    margin: 10px 0 0 0;
+}
+
+.has-datepicker { overflow-x:hidden; }
+
+
+/* Buttons */
+.no-margin-around {
+    margin-right:0;
+    margin-left:0;
+}
+
+.no-margin-top { margin-top: 0; }
+
+/* Receipt panel */
+.receipt-panel {
+    position: relative;
+    z-index:50;
+    min-height: 80px !important;
+    height: 80px;
+    max-height:80px;
+}
+
+.receipt-panel { font-size: 12px; }
+.entry-receipt { font-size: 2.7em; color:#000; }
+.panel-left .input-area{ margin-bottom: 5px; }
+
+.filter-bar {
+    background: #fff;
+    min-height: 80px !important;
+    max-height: 80px;
+    height: 80px;
+}
+
+.item-date {
+    position: absolute;
+    top: 18px;
+    right: 10px;
+    font-size: 12px !important;
+}
+
+.icon-size-64 {
+    width: 64px;
+    height: 64px;
+    min-width: 64px;
+    min-height: 64px !important;
+    max-width: 64px !important;
+    max-height: 64px;
+}
+
+.md-text-center { text-align: center; }

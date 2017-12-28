@@ -1,0 +1,53 @@
+<md-dialog aria-label="Filtrar Período">
+    <form ng-cloak name="frmPeriod" class="md-block" ng-submit="dialogCtrl.onSelectPeriod(dialogCtrl.period)">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Filtrar Período</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="dialogCtrl.cancel()">
+                    <md-icon md-svg-src="clear" aria-label="Fechar popup"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <div>
+                    <p md-colors="::{color: 'grey-500'}" class="no-margin-top">Início</p>
+                    <md-datepicker required ng-model="dialogCtrl.period.start"
+                                   name="periodStart" md-placeholder="Selecione"></md-datepicker>
+
+                    <div ng-messages="frmPeriod.periodStart.$error" class="datepicker-error-messages">
+                        <div ng-message="required valid">
+                            Data inválida
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <p md-colors="::{color: 'grey-500'}">Fim</p>
+                    <md-datepicker required ng-model="dialogCtrl.period.end"
+                                   name="periodEnd" md-placeholder="Selecione"></md-datepicker>
+
+                    <div ng-messages="frmPeriod.periodEnd.$error" class="datepicker-error-messages">
+                        <div ng-message="required valid">
+                            Data inválida
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <md-button ng-click="dialogCtrl.cancel()">
+                Cancelar
+            </md-button>
+
+            <span flex></span>
+
+            <md-button type="submit" class="md-raised md-primary" ng-disabled="frmPeriod.$invalid">
+                Buscar
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

@@ -1,0 +1,137 @@
+( function () {
+    angular.module( 'mfc' ).controller( 'EntriesController', EntriesController );
+
+    EntriesController.$inject = [
+        '$rootScope',
+        'inputs',
+        'outputs',
+        'items',
+        'Entry',
+        'DataAdapter',
+        'onDatabaseError',
+        'DATABASE',
+        'searchDialog'
+    ];
+
+    function EntriesController ( $rootScope, inputs, outputs, items, Entry, DataAdapter, onDatabaseError, DATABASE, searchDialog ) {
+        /* jshint validthis: true */
+        var self = this;
+
+        self.items      = DataAdapter.parseCollection( items );
+        self.inputs     = DataAdapter.parseProperty( inputs, 'total' );
+        self.outputs    = DataAdapter.parseProperty( outputs, 'total' );
+        self.pageTitle  = "Controle Financeiro";
+
+        /* Pagination properties */
+        self.isPaginationAllowed = true;
+        self.pageSize = DATABASE.itemsPerPage;
+
+        /* Period Filter */
+        self.periodStart    = new Date();
+        self.periodEnd      = new Date();
+
+        self.openFilterDialog = openFilterDialog;
+
+        /**
+         * Remove an item from a list by your index
+         *
+         * @param   int index   The index of item on list
+         * @return void
+         */
+        function updateList ( index ) {
+            self.items.splice( index, 1 );
+        }
+
+        /**
+         * Update the acumulated values on inputs and outputs
+         *
+         * @param   object  item    The item removed from the list
+         * @return void
+         */
+        function updateValues ( item ) {
+            if (item.operation === 'i') self.inputs -= item.price;
+            else self.outputs -= item.price;
+        }
+
+        /**
+         * Success callback of query paginate
+         *
+         * @param   WebSqlObject    rs  Result set of query
+         * @return void;
+         */
+        function onQuerySuccess ( rs ) {
+            var data = DataAdapter.parseCollection( rs );
+
+            if ( data.length !== 0 ) {
+
+                data.forEach( function ( item ) {
+                    self.items.push( item  );
+                } );
+
+                self.pageSize += DATABASE.itemsPerPage;
+                self.isPaginationAllowed = true;
+
+                return;
+            }
+
+            self.isPaginationAllowed = false;
+        }
+
+        /**
+         * Perform a query on Database with date params
+         *
+         * @private function
+         */
+        function queryDateByRange () {
+            Entry.findByDateRange(
+                DataAdapter.parsePeriod.start( self.periodStart ),
+                DataAdapter.parsePeriod.end( self.periodEnd ),
+                self.pageSize
+            ).then( onQuerySuccess ).catch( onDatabaseError.showError );
+        }
+
+        /**
+         * @private function
+         */
+        function resetQueryParams ( period ) {
+            // reset query params
+            self.periodStart = period.start;
+            self.periodEnd = period.end;
+            self.pageSize = 0;
+            self.isPaginationAllowed = true;
+            self.items = [];
+        }
+
+        /**
+         * @private function
+         * Success callback to search dialog
+         */
+        function onSelectPeriod ( period ) {
+            resetQueryParams( period );
+            queryDateByRange();
+        }
+
+        /**
+         * Open a custom dialog to user select a date range
+         *
+         * @see search.dialog.factory.js
+         */
+        function openFilterDialog ( ev ) {
+            searchDialog.open( ev )
+                .then( onSelectPeriod, function () {} );
+        }
+
+        /*
+         * Receive a signal from scrollNotifier directive
+         * Indicating that scroll reach the bottom of container
+         * Then starts paginate results
+         */
+        $rootScope.$on( 'scroll.bottom', function () {
+            if ( self.isPaginationAllowed ) {
+                self.isPaginationAllowed = false;
+                queryDateByRange();
+            }
+        } );
+    }
+
+} () );

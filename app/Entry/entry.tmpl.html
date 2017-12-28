@@ -1,0 +1,113 @@
+<md-toolbar class="with-shadow">
+    <div class="md-toolbar-tools"  ng-show="!ctrl.search">
+        <md-button class="md-icon-button" aria-label="Voltar" href="#/" >
+            <md-icon md-svg-src="back"></md-icon>
+        </md-button>
+
+        <span>{{::ctrl.pageTitle}}</span>
+
+        <span flex></span>
+
+        <md-button class="md-icon-button" aria-label="Escolher do catálogo" ng-click="ctrl.search = true;" ng-if="!ctrl.isEditMode">
+            <md-icon md-svg-src="search"></md-icon>
+        </md-button>
+
+        <md-button class="md-icon-button" aria-label="Salvar" ng-click="ctrl.updateOrCreate(ctrl.item);" ng-disabled="itemForm.$invalid">
+            <md-icon md-svg-src="save"></md-icon>
+        </md-button>
+
+        <md-button class="md-icon-button" aria-label="Remover este item" ng-click="ctrl.removeItem(ctrl.item);" ng-if="ctrl.isEditMode">
+            <md-icon md-svg-src="delete_forever"></md-icon>
+        </md-button>
+    </div>
+
+    <div class="md-toolbar-tools" layout="row" ng-show="ctrl.search && ! ctrl.isEditMode">
+        <md-button class="md-icon-button" aria-label="Buscar">
+            <md-icon md-svg-src="search"></md-icon>
+        </md-button>
+
+        <div class="flex">
+            <md-autocomplete
+                    ng-disabled="false"
+                    md-no-cache="true"
+                    md-floating-label="Buscar"
+                    md-selected-item="ctrl.selectedItem"
+                    md-search-text="ctrl.searchText"
+                    md-selected-item-change="ctrl.selectedItemChange(catalogItem)"
+                    md-items="catalogItem in ctrl.querySearch(ctrl.searchText)"
+                    md-item-text="catalogItem.name"
+                    md-min-length="0"
+                    placeholder="Buscar" flex>
+
+                <md-item-template>
+                    <span md-highlight-text="ctrl.searchText" md-highlight-flags="i">{{::catalogItem.name}}</span>
+                </md-item-template>
+
+                <md-not-found>Nenhum item encontrado no catálogo</md-not-found>
+
+            </md-autocomplete>
+        </div>
+
+        <md-button class="md-icon-button" aria-label="Cancelar Busca" ng-click="ctrl.search = false;">
+            <md-icon md-svg-src="clear"></md-icon>
+        </md-button>
+
+    </div>
+</md-toolbar>
+
+<md-content layout="column" flex md-colors="::{background: 'grey-50'}"  layout-padding>
+    <form name="itemForm" layout="column" class="has-datepicker">
+        <md-input-container>
+            <label>Nome</label>
+            <input ng-model="ctrl.item.name" name="item_name" required md-maxlength="30">
+            <div ng-messages="itemForm.item_name.$error">
+                <div ng-message="required">
+                    Campo obrigatório.
+                </div>
+                <div ng-message="md-maxlength">Máximo de 30 caracteres</div>
+            </div>
+        </md-input-container>
+
+        <md-input-container>
+            <label>Valor</label>
+            <input type="number" name="item_price" required ng-model="ctrl.item.price" step="0.01" min="0.01" max="99999.99">
+            <div ng-messages="itemForm.item_price.$error">
+                <div ng-message="required">
+                    Campo obrigatório.
+                </div>
+                <div ng-message="number">
+                    Número inválido. Ex: 25.97
+                </div>
+                <div ng-message="min">
+                    Preço mínimo deve ser R$ 0,01
+                </div>
+                <div ng-message="max">
+                    Preço máximo deve ser R$ 99999.99
+                </div>
+            </div>
+        </md-input-container>
+
+        <p md-colors="::{color : 'grey-500'}">Tipo de operação*</p>
+
+        <md-radio-group ng-model="ctrl.item.operation" layout="row" required>
+            <md-radio-button value="i" md-colors="::{color : 'grey-500'}">Entrada</md-radio-button>
+            <md-radio-button value="o" md-colors="::{color : 'grey-500'}">Saída</md-radio-button>
+        </md-radio-group>
+
+        <br /><br />
+
+        <p md-colors="::{color : 'grey-500'}">Data do registro*</p>
+
+        <md-datepicker required ng-model="ctrl.item.created_at"
+                       name="created_at" md-placeholder="Selecione"></md-datepicker>
+
+        <div ng-messages="itemForm.created_at.$error" class="datepicker-error-messages">
+            <div ng-message="required valid">
+                Digite a data no formato DD/MM/AAAA
+            </div>
+        </div>
+
+        <br /><br />
+    </form>
+
+</md-content>

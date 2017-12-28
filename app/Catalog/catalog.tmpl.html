@@ -1,0 +1,30 @@
+<md-toolbar class="with-shadow">
+    <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" aria-label="Voltar" href="#/" >
+            <md-icon md-svg-src="back"></md-icon>
+        </md-button>
+
+        <span>{{::catalog.pageTitle}}</span>
+
+        <span flex></span>
+
+        <md-button class="md-icon-button" aria-label="Add item" href="#/catalog/add">
+            <md-icon md-svg-src="add"></md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+
+<md-content layout="row" flex md-colors="::{background: 'grey-50'}">
+    <div layout="column" flex>
+        <md-list flex>
+            <md-list-item class="md-2-line" role="link" ng-repeat="item in catalog.items" href="./#/catalog/edit/{{::item.id}}">
+                <div class="md-list-item-text">
+                    <h3>{{::item.name}}</h3>
+                    <h4>{{::item.price | currency}}</h4>
+                    <p class="item-date">{{::item.created_at | date : 'dd/MM/yy'}}</p>
+                </div>
+                <md-divider></md-divider>
+            </md-list-item>
+        </md-list>
+    </div>
+</md-content>

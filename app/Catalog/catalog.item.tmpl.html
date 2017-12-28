@@ -1,0 +1,53 @@
+<md-toolbar class="with-shadow">
+    <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" aria-label="Voltar" href="#/catalog" >
+            <md-icon md-svg-src="back"></md-icon>
+        </md-button>
+
+        <span>{{::ctrl.pageTitle}}</span>
+
+        <span flex></span>
+
+        <md-button class="md-icon-button" aria-label="Salvar" ng-click="ctrl.updateOrCreate( ctrl.item );" ng-disabled="itemForm.$invalid">
+            <md-icon md-svg-src="save"></md-icon>
+        </md-button>
+
+        <md-button class="md-icon-button" aria-label="Remover este item" ng-click="ctrl.removeItem(ctrl.item);" ng-if="ctrl.isEditMode">
+            <md-icon md-svg-src="delete_forever"></md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+
+<md-content layout="row" flex md-colors="::{background: 'grey-50'}"  layout-padding>
+    <form name="itemForm" layout="column" flex>
+        <md-input-container>
+            <label>Nome</label>
+            <input ng-model="ctrl.item.name" name="item_name" required md-maxlength="30">
+            <div ng-messages="itemForm.item_name.$error">
+                <div ng-message="required">
+                    Campo obrigatório.
+                </div>
+                <div ng-message="md-maxlength">Máximo de 30 caracteres</div>
+            </div>
+        </md-input-container>
+
+        <md-input-container>
+            <label>Valor</label>
+            <input type="number" name="item_price" required ng-model="ctrl.item.price" step="0.01" min="0.01" max="99999.99">
+            <div ng-messages="itemForm.item_price.$error">
+                <div ng-message="required">
+                    Campo obrigatório.
+                </div>
+                <div ng-message="number">
+                    Número inválido. Ex: 25.97
+                </div>
+                <div ng-message="min">
+                    Preço mínimo deve ser R$ 0,01
+                </div>
+                <div ng-message="max">
+                    Preço máximo deve ser R$ 99999.99
+                </div>
+            </div>
+        </md-input-container>
+    </form>
+</md-content>

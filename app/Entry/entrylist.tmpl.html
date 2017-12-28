@@ -1,0 +1,79 @@
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <span>{{::entriesCtrl.pageTitle}}</span>
+
+        <span flex></span>
+
+        <md-button class="md-icon-button" aria-label="Buscar por período" ng-click="entriesCtrl.openFilterDialog($event);">
+            <md-icon md-svg-src="date_range"></md-icon>
+        </md-button>
+
+        <md-button class="md-icon-button" aria-label="Catálogo" href="#/catalog">
+            <md-icon md-svg-src="catalog"></md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+
+<div layout="row" md-colors="::{color: 'grey-500'}" flex layout-padding class="md-whiteframe-1dp receipt-panel with-shadow" ng-if="entriesCtrl.total() != 0">
+    <div flex="65">
+        <div>
+            <div class="panel-label">{{entriesCtrl.msg}}</div>
+
+            <span ng-if="entriesCtrl.total() < 99999.99">{{entriesCtrl.currency}}&nbsp;</span>
+            <span class="entry-receipt">{{ entriesCtrl.total() | currency:""}}</span>
+        </div>
+    </div>
+
+    <div flex flex="35" class="panel-left">
+        <div class="text-right">
+            <div class="input-area">
+                Entrada/Saída
+            </div>
+
+            <div class="input-area">
+                <span class="icon-outputs" md-colors="::{color: 'teal'}">&#43;</span>
+                {{entriesCtrl.currency}} {{(entriesCtrl.inputs - 0) | currency:""}}
+            </div>
+
+            <div class="output-area">
+                <span class="icon-outputs" md-colors="::{color: 'accent'}">&#45;</span>
+                {{entriesCtrl.currency}} {{(entriesCtrl.outputs - 0) | currency:""}}
+            </div>
+        </div>
+    </div>
+</div>
+
+<md-content layout="row" flex md-colors="::{background: 'grey-50'}" scroll-notifier ng-if="entriesCtrl.total() != 0">
+    <div layout="column" flex>
+        <md-list flex>
+            <md-list-item class="md-2-line" ng-repeat="item in entriesCtrl.items" href="#/entry/edit/{{::item.id}}">
+                <md-icon md-svg-src="add" ng-if="::item.operation == 'i'"></md-icon>
+                <md-icon md-svg-src="remove" ng-if="::item.operation == 'o'"></md-icon>
+
+                <div class="md-list-item-text">
+                    <h3>{{::item.price | currency}}</h3>
+                    <h4>{{::item.name}}</h4>
+                    <p class="item-date">{{::item.created_at | date : 'dd/MM/yy'}}</p>
+                </div>
+                <md-divider ng-if="!$last"></md-divider>
+            </md-list-item>
+
+            <!-- blank space for fabbutton -->
+            <md-list-item class="md-2-line">
+                <div class="md-list-item-text">
+                    <h3></h3>
+                    <p></p>
+                </div>
+            </md-list-item>
+        </md-list>
+    </div>
+</md-content>
+
+<md-content layout="row" flex md-colors="::{background: 'grey-50'}" layout-align="center center" ng-if="entriesCtrl.total() == 0">
+    <div class="md-text-center">
+        <p md-colors="::{color: 'grey-500'}">
+            Nenhum lançamento encontrado.</p>
+    </div>
+</md-content>
+
+<fab navigate-to="/entry/add" icon="add" aria="Novo registro"></fab>

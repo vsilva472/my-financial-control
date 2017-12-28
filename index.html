@@ -1,0 +1,64 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+
+    <!-- Angular Material style sheet -->
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+
+    <!-- /base href for ngRoute http://localhost/financial -->
+    <base href="/my-financial-control/">
+
+    <!-- App styles -->
+    <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body ng-app="mfc" ng-cloak layout="row">
+
+<div ng-view layout="column" flex></div>
+
+<!--
+  Your HTML content here
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.js"></script>
+<!-- Angular Material requires Angular.js Libraries -->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+<!-- Angular Material Library -->
+<script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+<script src="https://code.angularjs.org/1.5.5/i18n/angular-locale_pt-br.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-sanitize.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.min.js"></script>
+
+
+
+<script src="app/app.js"></script>
+
+<script src="app/Core/date.config.js"></script>
+<script src="app/Core/fab.directive.js"></script>
+<script src="app/Core/confirm.dialog.factory.js"></script>
+<script src="app/Core/scrollNotifier.directive.js"></script>
+<script src="app/Core/icon.config.js"></script>
+<script src="app/Core/data.adapter.service.js"></script>
+
+<script src="app/Database/database.config.js"></script>
+<script src="app/Database/database.service.js"></script>
+<script src="app/Database/database.error.factory.js"></script>
+
+<script src="app/Catalog/catalog.service.js"></script>
+<script src="app/Catalog/route.config.js"></script>
+<script src="app/Catalog/catalog.controller.js"></script>
+<script src="app/Catalog/catalog.item.controller.js"></script>
+
+<script src="app/Entry/entry.service.js"></script>
+<script src="app/Entry/route.config.js"></script>
+<script src="app/Entry/entry.controller.js"></script>
+<script src="app/Entry/search.dialog.factory.js"></script>
+<script src="app/Entry/entry.search.dialog.controller.js"></script>
+<script src="app/Entry/entries.controller.js"></script>
+<script src="app/Entry/period.manager.service.js"></script>
+
+</body>
+</html>
