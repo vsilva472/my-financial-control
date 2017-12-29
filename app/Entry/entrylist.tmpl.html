@@ -13,7 +13,9 @@
         </md-button>
     </div>
 </md-toolbar>
-
+<div class="loader-area" id="loader-area" style="display:none;">
+    <md-progress-linear md-mode="indeterminate"></md-progress-linear>
+</div>
 <div layout="row" md-colors="::{color: 'grey-500'}" flex layout-padding class="md-whiteframe-1dp receipt-panel with-shadow" ng-if="entriesCtrl.total() != 0">
     <div flex="65">
         <div>
@@ -42,7 +44,6 @@
         </div>
     </div>
 </div>
-
 <md-content layout="row" flex md-colors="::{background: 'grey-50'}" scroll-notifier ng-if="entriesCtrl.total() != 0">
     <div layout="column" flex>
         <md-list flex>
@@ -69,7 +70,8 @@
     </div>
 </md-content>
 
-<md-content layout="row" flex md-colors="::{background: 'grey-50'}" layout-align="center center" ng-if="entriesCtrl.total() == 0">
+<md-content layout="row" flex md-colors="::{background: 'grey-50'}"
+            layout-align="center center" ng-if="entriesCtrl.total() == 0">
     <div class="md-text-center">
         <p md-colors="::{color: 'grey-500'}">
             Nenhum lançamento encontrado.</p>

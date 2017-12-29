@@ -2,6 +2,7 @@
     angular.module( 'mfc' ).controller( 'EntriesController', EntriesController );
 
     EntriesController.$inject = [
+        '$timeout',
         '$rootScope',
         '$filter',
         '$locale',
@@ -13,7 +14,7 @@
         'PeriodManager'
     ];
 
-    function EntriesController ( $rootScope, $filter, $locale, Entry, DataAdapter, onDatabaseError, DATABASE, searchDialog, PeriodManager ) {
+    function EntriesController ( $timeout, $rootScope, $filter, $locale, Entry, DataAdapter, onDatabaseError, DATABASE, searchDialog, PeriodManager ) {
         /* jshint validthis: true */
         var self = this;
 
@@ -37,6 +38,7 @@
 
         self.openFilterDialog = openFilterDialog;
 
+        self.isLoading = true;
 
         /**
          * Success callback of query paginate
@@ -45,21 +47,23 @@
          * @return void;
          */
         function onQuerySuccess ( rs ) {
-            var data = DataAdapter.parseCollection( rs );
+            $timeout(function () {
+                var data = DataAdapter.parseCollection( rs );
+                hideLoader();
 
-            if ( data.length !== 0 ) {
+                if ( data.length !== 0 ) {
 
-                data.forEach( function ( item ) {
-                    self.items.push( item  );
-                } );
+                    data.forEach( function ( item ) {
+                        self.items.push( item  );
+                    } );
 
-                self.pageSize += DATABASE.itemsPerPage;
-                self.isPaginationAllowed = true;
+                    self.pageSize += DATABASE.itemsPerPage;
+                    self.isPaginationAllowed = true;
+                    return;
+                }
 
-                return;
-            }
-
-            self.isPaginationAllowed = false;
+                self.isPaginationAllowed = false;
+            }, 300);
         }
 
         /**
@@ -68,7 +72,6 @@
          * @private function
          */
         function queryDateByRange () {
-            console.log( 'queryDateByRange' );
             Entry.findByDateRange(
                 DataAdapter.parsePeriod.start( self.periodStart ),
                 DataAdapter.parsePeriod.end( self.periodEnd ),
@@ -94,6 +97,7 @@
          */
         function onSelectPeriod ( period ) {
             PeriodManager.set( period.start,  period.end );
+            showLoader();
             resetQueryParams( period );
             queryDateByRange();
             setPainelValues();
@@ -162,6 +166,7 @@
          */
         $rootScope.$on( 'scroll.bottom', function () {
             if ( self.isPaginationAllowed ) {
+                showLoader();
                 self.isPaginationAllowed = false;
                 queryDateByRange();
             }
@@ -193,12 +198,22 @@
 
         // Controller constructor
         function init () {
+            showLoader();
             var period = PeriodManager.get();
             self.periodStart = period.start;
             self.periodEnd = period.end;
 
             queryDateByRange();
             setPainelValues();
+        }
+
+        /* TODO refactor loader methods */
+        function showLoader() {
+            document.getElementById( 'loader-area' ).style.display='block';
+        }
+
+        function hideLoader () {
+            document.getElementById( 'loader-area' ).style.display='none';
         }
 
         init();
