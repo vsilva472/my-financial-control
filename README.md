@@ -47,5 +47,11 @@ Nota: Se você deseja implementar outro tipo de storage como IndexedDB ou mesmo 
 ### Demo
 Para visualizar a demonstração acesse: http://vsilva472.github.io/my-financial-control em um navegador que ainda tenha suporte WebSQL (como o Google Chrome por exemplo).
 
-### Licença
+### Doações
+Contribua para o projeto me enviando algumas **HTMLCOIN**  
+Carteira: **HqgaiK6T1o2JP4p3p34CZp2g3XnSsSdCXp**
+  
+![Doar HTMLCoin](https://www.viniciusdesouza.com.br/img/htmlcoin.png)
+
+#### Licença
 MIT
